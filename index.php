@@ -55,7 +55,7 @@
     <header class="header" id="header">
         <nav class="nav container">
             <a class="nav__logo">
-                <img src="./icons/logo.png" alt="Logo" class="cursor-scale small">BarberBook
+                <img src="./icons/logo.png" alt="Logo" class="cursor-scale small"><span>BarberBook</span>
             </a>
             <div class="nav__menu" id="nav-menu">
                 <ul class="nav__list">
@@ -93,7 +93,6 @@
     <main class="main">
 
         <!-- Home -->
-
         <section class="home section" id="home">
             <div class="home__container container grid">
                <div class="image_container">
@@ -120,7 +119,6 @@
         </section>
 
         <!-- Service List -->
-
         <!-- <section class="service section container" id="service">
             <h2 style="font-size: 40px;">
                 Services
@@ -166,62 +164,62 @@
             </div>
         </section> -->
         <section class="container service section " id="service">
-    <h1 class="container__title cursor-scale small">Services💈✂️</h1>
-    <div class="card__container">
-        <?php
-        // Fetch service list from the database
-        $fetchQuery = "SELECT * FROM services";
-        $result = $conn->query($fetchQuery);
-
-        // Check if there are any services
-        if ($result->num_rows > 0) {
-            // Loop through each row
-            while ($row = $result->fetch_assoc()) {
-                ?>
-                <article>
-                    <!-- CARD PRODUCT -->
-                    <div class="card__product">
-                        <!-- Assuming you have an image URL in your database -->
-                        <img src="./barber/src/uploaded_img/<?= $row['image'] ?>?<?= time() ?>" alt="Service Image" class="card__img">
-
-                        <div>
-                            <h3 class="card__name"><?php echo $row['service_name']; ?></h3>
-                            <span class="card__price"><?php echo $row['cost']; ?></span>
-                        </div>
-                    </div>
-
-                    <!-- POPUP MODAL -->
-                    <div class="modal">
-                        <div class="modal__card">
-                            <i class="ri-close-large-line modal__close"></i>
-
-                            <img  src="./barber/src/uploaded_img/<?= $row['image'] ?>?<?= time() ?>" alt="Service Image" class="modal__img">
-
-                            <div>
-                                <h3 class="modal__name"><?php echo $row['service_name']; ?></h3>
-                                <p class="modal__info">
-                                    <?php echo $row['description']; ?>
-                                </p>
-                                <span class="modal__price"><?php echo $row['cost']; ?></span>
-                            </div>
-
-                            <div class="modal__buttons">
-                                <a href="./appointment/appointment.php">
-                                   <button class="modal__button">BOOK APPOINTMENT</button>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </article>
+            <h1 class="container__title cursor-scale small">Services💈✂️</h1>
+            <div class="card__container">
                 <?php
-            }
-        } else {
-            // If there are no services
-            echo '<p>No services found.</p>';
-        }
-        ?>
-    </div>
-</section>
+                // Fetch service list from the database
+                $fetchQuery = "SELECT * FROM services";
+                $result = $conn->query($fetchQuery);
+
+                // Check if there are any services
+                if ($result->num_rows > 0) {
+                    // Loop through each row
+                    while ($row = $result->fetch_assoc()) {
+                        ?>
+                        <article>
+                            <!-- CARD PRODUCT -->
+                            <div class="card__product">
+                                <!-- Assuming you have an image URL in your database -->
+                                <img src="./barber/src/uploaded_img/<?= $row['image'] ?>?<?= time() ?>" alt="Service Image" class="card__img">
+
+                                <div>
+                                    <h3 class="card__name"><?php echo $row['service_name']; ?></h3>
+                                    <span class="card__price"><?php echo $row['cost']; ?></span>
+                                </div>
+                            </div>
+
+                            <!-- POPUP MODAL -->
+                            <div class="modal">
+                                <div class="modal__card">
+                                    <i class="ri-close-large-line modal__close"></i>
+
+                                    <img  src="./barber/src/uploaded_img/<?= $row['image'] ?>?<?= time() ?>" alt="Service Image" class="modal__img">
+
+                                    <div>
+                                        <h3 class="modal__name"><?php echo $row['service_name']; ?></h3>
+                                        <p class="modal__info">
+                                            <?php echo $row['description']; ?>
+                                        </p>
+                                        <span class="modal__price"><?php echo $row['cost']; ?></span>
+                                    </div>
+
+                                    <div class="modal__buttons">
+                                        <a href="./appointment/appointment.php">
+                                        <button class="modal__button">BOOK APPOINTMENT</button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                        <?php
+                    }
+                } else {
+                    // If there are no services
+                    echo '<p>No services found.</p>';
+                }
+                ?>
+            </div>
+        </section>
         <!-- Contact -->
         <section class="contact section container" id="contact">
             <h1 class="cursor-scale small">Contact Us ✉️</h1>
@@ -312,10 +310,6 @@
                 </div>
             </div>
         </section>
-        
-
-        <!-- Admin -->
-
     </main>
 
     <!-- === Footer === -->
