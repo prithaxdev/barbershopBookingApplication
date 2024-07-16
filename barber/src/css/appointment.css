@@ -1,0 +1,74 @@
+.appointment-container {
+  background-color: #fff;
+  min-height: 100vh;
+  border-radius: 5px;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.appointment-list {
+  margin-top: 20px;
+}
+
+.appointment-list h3 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.appointment-list table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.appointment-list th,
+.appointment-list td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.appointment-list th {
+  background-color: #000;
+  color: #fff;
+  font-size: 20px;
+  border: 2px solid #ccc;
+}
+
+.appointment-list td {
+  font-size: 18px;
+  border: 2px solid #ccc;
+}
+
+.appointment-list tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.appointment-list td button {
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.appointment-list td button.accept {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+}
+
+.appointment-list td button.cancel {
+  background-color: #f44336;
+  color: white;
+  border: none;
+}
+
+.appointment-list td button {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin: 10px;
+}
+
+

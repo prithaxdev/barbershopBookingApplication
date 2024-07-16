@@ -1,0 +1,127 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+
+* {
+  font-family: "Space Mono", monospace;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #fffff0;
+}
+
+.container {
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+}
+
+.manage_services {
+  margin: 2rem 0;
+}
+
+.manage_services .display_table {
+  width: 100%;
+  text-align: center;
+}
+
+.manage_services .display_table thead {
+  background-color: #000;
+  color: #fff;
+}
+
+.manage_services .display_table th {
+  padding: 1.5rem;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.manage_services .display_table td {
+  padding: 1.5rem;
+  font-weight: 700;
+  font-size: 0.8rem;
+  border-bottom: 5px solid #fcc419;
+  /* word-break: break-all; */
+  overflow-wrap: break-word;
+  text-wrap: wrap;
+}
+
+.manage_services h1 {
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.manage_services .line1 {
+  height: 12px;
+  width: 400px;
+  background-color: blueviolet;
+  border-radius: 15px;
+  outline: none;
+}
+
+.manage_services .line2 {
+  margin-top: -3px;
+  outline: none;
+  margin-left: 15px;
+  margin-bottom: 50px;
+  height: 12px;
+  width: 400px;
+  background-color: black;
+  border-radius: 15px;
+}
+
+.btn {
+  display: block;
+  width: 100%;
+  cursor: pointer;
+  border-radius: 0.5rem;
+  margin-top: 1rem;
+  font-size: 1rem;
+  /* padding: 1rem 3rem; */
+  padding: 0.6rem 2rem;
+  background: #fcc419;
+  color: #fff;
+  font-weight: 700;
+  transition: 0.5s ease-in-out;
+  text-align: center;
+}
+
+.btn:hover {
+  background: #000;
+}
+
+.manage_services .display_table .btn {
+  text-decoration: none;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.manage_services .display_table .btn:first-child {
+  margin-top: 0;
+}
+
+.manage_services .display_table .btn:last-child {
+  background: crimson;
+  color: #fff;
+  transition: 0.5s ease-out;
+}
+
+.manage_services .display_table .btn:last-child:hover {
+  background-color: red;
+}
+
+.back {
+  margin: 20px;
+  font-size: 40px;
+  cursor: pointer;
+  transition: 0.5s ease-in-out;
+}
+
+.back a:hover {
+  color: #fcc419;
+}

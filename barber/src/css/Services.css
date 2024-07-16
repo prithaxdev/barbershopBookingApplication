@@ -1,0 +1,65 @@
+.container {
+  height: 90vh;
+  display: flex;
+  gap: 50px;
+  justify-content: center;
+  background-color: #fff;
+  margin-top: 20px;
+  align-items: center;
+  border-radius: 5px;
+}
+
+.add_box,
+.manage_box {
+  height: 300px;
+  width: 400px;
+  background-color: #fff;
+  border: 3px solid #ccc;
+  margin: 20px;
+  border-radius: 5px;
+  border-bottom-width: 5px;
+  border-right-width: 5px;
+  outline: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.5s ease-out;
+}
+
+.add_box:hover,
+.manage_box:hover {
+  border-color: #9b59b6;
+}
+
+.content {
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.content .add_icon {
+  color: #000;
+  font-size: 60px;
+  cursor: pointer;
+  transition: all 0.5s ease-in-out;
+}
+
+.content .text {
+  color: #000;
+  font-size: 30px;
+  font-weight: bolder;
+}
+
+.content .add_icon:hover {
+  color: #9b59b6;
+}
+
+@media screen and (max-width: 720px) {
+  .container {
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,59 @@
+.dashboard-boxes {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  background: #fff;
+  height: 85vh;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.dashboard-box {
+  background-color: #fff;
+  border: 3px solid #ccc;
+  outline: none;
+  border-bottom-width: 5px;
+  border-right-width: 5px;
+  border-radius: 4px;
+  padding: 20px;
+  width: 30%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 200px;
+  margin-bottom: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.5s ease-in-out;
+}
+
+.dashboard-box:hover {
+  border-color: #9b59b6;
+}
+
+.dashboard-box h3 {
+  margin: 0;
+  font-size: 30px;
+  margin-bottom: 5px;
+}
+
+.dashboard-box p {
+  font-size: 22px;
+  font-weight: bold;
+  opacity: 0.6;
+}
+
+@media (max-width: 768px) {
+  .dashboard-boxes {
+    flex-direction: row;
+  }
+  .dashboard-box {
+    width: 100%;
+  }
+}
+.barber-profile {
+  font-size: 30px;
+  cursor: pointer;
+}
