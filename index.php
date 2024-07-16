@@ -235,7 +235,9 @@
                             </marquee>
                         </div>
                         
-                        <form action="" method="Post">
+                        <form action="https://api.web3forms.com/submit" method="Post">
+                            <input type="hidden" name="access_key" value="b04535a3-865e-47aa-b7b8-e66e18ccd2fc">
+                            <input type="hidden" name="subject" value="Barbershop Booking System: New Contact Page Message">
                             <div class="input-box">
                                 <input type="text" name="name" class="name" placeholder="Enter name" autocomplete="off">
                             </div>
