@@ -66,6 +66,9 @@ if (isset($_POST['update'])) {
 
     <!-- Boxicons CSS -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <!-- Favicon Icon -->
+    <link rel="icon" type="image/x-icon" href="../favicon/favicon-2.png" sizes="32x32">
 </head>
 <body>
     <div class="cursor"></div>
