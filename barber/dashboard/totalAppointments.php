@@ -1,11 +1,9 @@
 <?php
 session_start();
 require_once('../config/dbConnection.php');
-require_once('../dashboard/logout.php');
 
 // Fetch all appointments
 $appointmentsResult = $conn->query("SELECT * FROM appointments");
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,61 +11,45 @@ $appointmentsResult = $conn->query("SELECT * FROM appointments");
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Total Appointments</title>
-    <link rel="stylesheet" href="../src/css/Style.css">
-    <link rel="stylesheet" href="../src/css/Dashboard.css">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-    <div class="sidebar">
-        <div class="logo"></div>
-        <ul class="menu">
-            <li>
-                <a href="./dashboard.php">
-                    <i class="fa-solid fa-gauge-high"></i>
-                    <span>Dashboard</span>
-                </a>
-            </li>
-            <!-- Add other menu items as needed -->
-            <li class="logout">
-                <form id="logoutForm" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-                    <input type="hidden" name="logout" value="true">
-                    <a href="#" onclick="document.getElementById('logoutForm').submit();">
-                        <i class="fa-solid fa-right-from-bracket"></i>
-                        <span>Logout</span>
-                    </a>
-                </form>
-            </li>
-        </ul>
+<div class="flex flex-col">
+  <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+    <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+      <div class="overflow-hidden">
+        <table class="min-w-full text-left text-sm font-light text-surface dark:text-white">
+          <thead class="border-b border-neutral-200 font-medium dark:border-white/10">
+            <tr>
+              <th scope="col" class="px-6 py-4">#</th>
+              <th scope="col" class="px-6 py-4">Name</th>
+              <th scope="col" class="px-6 py-4">Email</th>
+              <th scope="col" class="px-6 py-4">Service</th>
+              <th scope="col" class="px-6 py-4">Date</th>
+              <th scope="col" class="px-6 py-4">Time</th>
+              <th scope="col" class="px-6 py-4">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php
+            $index = 1;
+            while ($row = $appointmentsResult->fetch_assoc()) {
+                echo "<tr class='border-b border-neutral-200 dark:border-white/10'>";
+                echo "<td class='whitespace-nowrap px-6 py-4 font-medium'>" . $index++ . "</td>";
+                echo "<td class='whitespace-nowrap px-6 py-4'>" . htmlspecialchars($row['name']) . "</td>";
+                echo "<td class='whitespace-nowrap px-6 py-4'>" . htmlspecialchars($row['email']) . "</td>";
+                echo "<td class='whitespace-nowrap px-6 py-4'>" . htmlspecialchars($row['service']) . "</td>";
+                echo "<td class='whitespace-nowrap px-6 py-4'>" . htmlspecialchars($row['date']) . "</td>";
+                echo "<td class='whitespace-nowrap px-6 py-4'>" . htmlspecialchars($row['time']) . "</td>";
+                echo "<td class='whitespace-nowrap px-6 py-4'>" . htmlspecialchars($row['status']) . "</td>";
+                echo "</tr>";
+            }
+            ?>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <div class="main--content">
-        <div class="header-wrapper">
-            <div class="header-title">
-                <h2>Total Appointments</h2>
-            </div>
-        </div>
-        <div class="appointments-list">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Appointment ID</th>
-                        <th>Customer Name</th>
-                        <th>Date</th>
-                        <th>Time</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php while ($appointment = $appointmentsResult->fetch_assoc()): ?>
-                        <tr>
-                            <td><?php echo $appointment['id']; ?></td>
-                            <td><?php echo $appointment['customer_name']; ?></td>
-                            <td><?php echo $appointment['date']; ?></td>
-                            <td><?php echo $appointment['time']; ?></td>
-                            <td><?php echo $appointment['status']; ?></td>
-                        </tr>
-                    <?php endwhile; ?>
-                </tbody>
-            </table>
-        </div>
-    </div>
+  </div>
+</div>
 </body>
 </html>
