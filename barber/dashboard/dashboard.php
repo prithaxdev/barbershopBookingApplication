@@ -41,26 +41,26 @@ if (isset($_POST['update'])) {
     <style>
         /* Cursor */
         .cursor {
-        position: fixed;
-        width: 40px;
-        height: 40px;
-        margin-left: -20px;
-        border-radius: 50%;
-        border: 2px solid #16a085;
-        transition: transform 0.2s ease;
-        transform-origin: center center;
-        pointer-events: none;
-        z-index: 1000;
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            margin-left: -20px;
+            border-radius: 50%;
+            border: 2px solid #16a085;
+            transition: transform 0.2s ease;
+            transform-origin: center center;
+            pointer-events: none;
+            z-index: 1000;
         }
         .grow,
         .grow-small {
-        transform: scale(7);
-        background-color: #fff;
-        mix-blend-mode: difference;
-        border: none;
+            transform: scale(7);
+            background-color: #fff;
+            mix-blend-mode: difference;
+            border: none;
         }
         .grow-small {
-        transform: scale(2.5);
+            transform: scale(2.5);
         }
     </style>
 
@@ -151,18 +151,34 @@ if (isset($_POST['update'])) {
             // Fetch accepted appointments
             $acceptedAppointmentsResult = $conn->query("SELECT COUNT(*) AS total FROM appointments WHERE status = 'Accepted'");
             $acceptedAppointments = $acceptedAppointmentsResult->fetch_assoc()['total'];
+
+            // Fetch today's appointments
+            $todaysAppointmentsResult = $conn->query("SELECT COUNT(*) AS total FROM appointments WHERE date = CURDATE()");
+            $todaysAppointments = $todaysAppointmentsResult->fetch_assoc()['total'];
+
+            // Fetch tomorrow's appointments
+            $tomorrowsAppointmentsResult = $conn->query("SELECT COUNT(*) AS total FROM appointments WHERE date = CURDATE() + INTERVAL 1 DAY");
+            $tomorrowsAppointments = $tomorrowsAppointmentsResult->fetch_assoc()['total'];
             ?>
-            <div class="dashboard-box cursor-scale">
+            <div class="dashboard-box cursor-scale" onclick="window.location.href='./totalAppointments.php'">
                 <h3>Total Appointments</h3>
                 <p><?php echo $totalAppointments; ?></p>
             </div>
-            <div class="dashboard-box cursor-scale">
+            <div class="dashboard-box cursor-scale" onclick="window.location.href='./canceledAppointments.php'">
                 <h3>Canceled Appointments</h3>
                 <p><?php echo $canceledAppointments; ?></p>
             </div>
-            <div class="dashboard-box cursor-scale">
+            <div class="dashboard-box cursor-scale" onclick="window.location.href='./acceptedAppointments.php'">
                 <h3>Accepted Appointments</h3>
                 <p><?php echo $acceptedAppointments; ?></p>
+            </div>
+            <div class="dashboard-box cursor-scale" onclick="window.location.href='./todaysAppointments.php'">
+                <h3>Today's Appointments</h3>
+                <p><?php echo $todaysAppointments; ?></p>
+            </div>
+            <div class="dashboard-box cursor-scale" onclick="window.location.href='./tomorrowsAppointments.php'">
+                <h3>Tomorrow's Appointments</h3>
+                <p><?php echo $tomorrowsAppointments; ?></p>
             </div>
         </div>
     </div>
@@ -178,6 +194,7 @@ if (isset($_POST['update'])) {
         function closePopup(id) {
             document.getElementById('popup-box-' + id).style.display = 'none';
         }
+
         <?php if ($alertMessage !== ""): ?>
             alert("<?php echo $alertMessage; ?>");
         <?php endif; ?>
@@ -185,8 +202,6 @@ if (isset($_POST['update'])) {
         function confirmUpdate() {
             return confirm("Are you sure you want to update the username and password?");
         }
-
     </script>
 </body>
 </html>
-
