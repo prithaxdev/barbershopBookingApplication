@@ -37,7 +37,7 @@ if (isset($_POST['update'])) {
     <!-- Style -->
     <link rel="stylesheet" href="../src/css/Style.css">
     <link rel="stylesheet" href="../src/css/profile/popup.css">
-    <link rel="stylesheet" href="../src/css/Dashboard.css">
+    <link rel="stylesheet" href="../src/css/dashboard.css">
     <style>
         /* Cursor */
         .cursor {

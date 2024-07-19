@@ -1,15 +1,16 @@
 .dashboard-boxes {
   display: flex;
-  justify-content: space-between;
   flex-wrap: wrap;
+  gap: 20px;
   margin-top: 20px;
   background: #fff;
-  height: 85vh;
+  height: full;
   padding: 20px;
   border-radius: 5px;
 }
 
 .dashboard-box {
+  flex: 1 1 calc(33.333% - 20px);
   background-color: #fff;
   border: 3px solid #ccc;
   outline: none;
