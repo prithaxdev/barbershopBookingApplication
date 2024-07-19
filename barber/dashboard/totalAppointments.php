@@ -14,6 +14,14 @@ $appointmentsResult = $conn->query("SELECT * FROM appointments");
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
+<div class="p-4">
+  <a href="dashboard.php" class="inline-flex items-center px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+    </svg>
+    Back to Dashboard
+  </a>
+</div>
 <div class="flex flex-col">
   <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
     <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
