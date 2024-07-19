@@ -3,14 +3,10 @@ session_start();
 require_once('../config/dbConnection.php');
 require_once('../dashboard/logout.php'); // Include the logout file
 
-// Fetch tblbarber from the database
-$selectQuery = "SELECT * FROM tblbarber";
-$result = $conn->query($selectQuery);
-
 // Initialize alert message
 $alertMessage = "";
 
-// Update tblbarber if form is submitted
+// Handle form submission for updating tblbarber
 if (isset($_POST['update'])) {
     $ID = $_POST['ID'];
     $username = $_POST['username'];
@@ -20,11 +16,12 @@ if (isset($_POST['update'])) {
     $stmt = $conn->prepare("UPDATE tblbarber SET username = ?, password = ? WHERE id = ?");
     $stmt->bind_param("ssi", $username, $password, $ID);
 
-    if ($stmt->execute() === TRUE) {
+    if ($stmt->execute()) {
         $alertMessage = "Username & Password updated successfully.";
     } else {
-        $alertMessage = "Error updating Username & Password!: " . $conn->error;
+        $alertMessage = "Error updating Username & Password: " . $conn->error;
     }
+    $stmt->close();
 }
 ?>
 <!DOCTYPE html>
@@ -100,7 +97,7 @@ if (isset($_POST['update'])) {
                 </a>
             </li>
             <li class="logout">
-                <form id="logoutForm" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+                <form id="logoutForm" method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
                     <input type="hidden" name="logout" value="true">
                     <a href="#" onclick="document.getElementById('logoutForm').submit();">
                         <i class="fa-solid fa-right-from-bracket"></i>
@@ -116,20 +113,22 @@ if (isset($_POST['update'])) {
                 <h2 class="cursor-scale small">Dashboard</h2>
             </div>
             <div class="user--info">
-                <?php while ($row = $result->fetch_assoc()) : ?>
+                <?php
+                $result = $conn->query("SELECT * FROM tblbarber");
+                while ($row = $result->fetch_assoc()) : ?>
                     <i class="fa-solid fa-user barber-profile cursor-scale small" onclick="showPopup(<?= $row['ID'] ?>)"></i>
                     <div id="popup-box-<?= $row['ID'] ?>" class="popup">
                         <div class="close-btn" onclick="closePopup(<?= $row['ID'] ?>)">&times;</div>
                         <div class="popup_content">
-                            <form id="updateForm" method="post" action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" onsubmit="return confirmUpdate()">
+                            <form id="updateForm" method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" onsubmit="return confirmUpdate()">
                                 <input type="hidden" name="ID" value="<?= $row['ID'] ?>">
                                 <div class="input-control">
                                     <label for="username">Username</label>
-                                    <input type="text" name="username" id="username" value="<?= $row['UserName'] ?>">
+                                    <input type="text" name="username" id="username" value="<?= htmlspecialchars($row['UserName']) ?>">
                                 </div>
                                 <div class="input-control">
                                     <label for="password">Password:</label>
-                                    <input type="password" name="password" id="password" value="<?= $row['Password'] ?>">
+                                    <input type="password" name="password" id="password" value="<?= htmlspecialchars($row['Password']) ?>">
                                 </div>
                                 <button type="submit" name="update">UPDATE</button>
                             </form>
@@ -162,23 +161,27 @@ if (isset($_POST['update'])) {
             ?>
             <div class="dashboard-box cursor-scale" onclick="window.location.href='./totalAppointments.php'">
                 <h3>Total Appointments</h3>
-                <p><?php echo $totalAppointments; ?></p>
+                <p><?php echo htmlspecialchars($totalAppointments); ?></p>
             </div>
             <div class="dashboard-box cursor-scale" onclick="window.location.href='./canceledAppointments.php'">
                 <h3>Canceled Appointments</h3>
-                <p><?php echo $canceledAppointments; ?></p>
+                <p><?php echo htmlspecialchars($canceledAppointments); ?></p>
             </div>
             <div class="dashboard-box cursor-scale" onclick="window.location.href='./acceptedAppointments.php'">
                 <h3>Accepted Appointments</h3>
-                <p><?php echo $acceptedAppointments; ?></p>
+                <p><?php echo htmlspecialchars($acceptedAppointments); ?></p>
             </div>
             <div class="dashboard-box cursor-scale" onclick="window.location.href='./todaysAppointments.php'">
                 <h3>Today's Appointments</h3>
-                <p><?php echo $todaysAppointments; ?></p>
+                <p><?php echo htmlspecialchars($todaysAppointments); ?></p>
             </div>
             <div class="dashboard-box cursor-scale" onclick="window.location.href='./tomorrowsAppointments.php'">
                 <h3>Tomorrow's Appointments</h3>
-                <p><?php echo $tomorrowsAppointments; ?></p>
+                <p><?php echo htmlspecialchars($tomorrowsAppointments); ?></p>
+            </div>
+            <div class="dashboard-box cursor-scale" onclick="window.location.href='./filterappointment.php'">
+                <h3>Filter Appointments</h3>
+                <p>Click here to access the filter and CSV download options here.</p>
             </div>
         </div>
     </div>
@@ -196,7 +199,7 @@ if (isset($_POST['update'])) {
         }
 
         <?php if ($alertMessage !== ""): ?>
-            alert("<?php echo $alertMessage; ?>");
+            alert("<?php echo htmlspecialchars($alertMessage); ?>");
         <?php endif; ?>
 
         function confirmUpdate() {
