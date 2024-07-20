@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once('../config/dbConnection.php');
+require('./fpdf186/fpdf.php'); // Include the FPDF library
 
 // Initialize filters and CSV generation
 $filter = isset($_POST['filter']) ? $_POST['filter'] : '';
@@ -51,6 +52,56 @@ if (isset($_POST['generateCSV'])) {
     fclose($output);
     exit();
 }
+
+// Handle PDF generation
+if (isset($_POST['generatePDF'])) {
+    class PDF extends FPDF
+    {
+        // Page header
+        function Header()
+        {
+            $this->SetFont('Arial', 'B', 12);
+            $this->Cell(0, 10, 'Appointments Report', 0, 1, 'C');
+            $this->Ln(10);
+            $this->SetFont('Arial', 'B', 10);
+            $this->Cell(10, 10, '#', 1);
+            $this->Cell(40, 10, 'Name', 1);
+            $this->Cell(50, 10, 'Email', 1);
+            $this->Cell(30, 10, 'Service', 1);
+            $this->Cell(25, 10, 'Date', 1);
+            $this->Cell(20, 10, 'Time', 1);
+            $this->Cell(15, 10, 'Status', 1);
+            $this->Ln();
+        }
+
+        // Page footer
+        function Footer()
+        {
+            $this->SetY(-15);
+            $this->SetFont('Arial', 'I', 8);
+            $this->Cell(0, 10, 'Page ' . $this->PageNo(), 0, 0, 'C');
+        }
+    }
+
+    $pdf = new PDF();
+    $pdf->AddPage();
+    $pdf->SetFont('Arial', '', 10);
+
+    $index = 1;
+    while ($row = $dataResult->fetch_assoc()) {
+        $pdf->Cell(10, 10, $index++, 1);
+        $pdf->Cell(40, 10, $row['name'], 1);
+        $pdf->Cell(50, 10, $row['email'], 1);
+        $pdf->Cell(30, 10, $row['service'], 1);
+        $pdf->Cell(25, 10, $row['date'], 1);
+        $pdf->Cell(20, 10, $row['time'], 1);
+        $pdf->Cell(15, 10, $row['status'], 1);
+        $pdf->Ln();
+    }
+
+    $pdf->Output('D', 'appointments.pdf');
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -63,7 +114,12 @@ if (isset($_POST['generateCSV'])) {
         function confirmDownload() {
             return confirm("Are you sure you want to download the CSV file?");
         }
+        function confirmGeneratePDF() {
+            return confirm("Are you sure you want to generate the PDF file?");
+        }
     </script>
+    <!-- Favicon Icon -->
+    <link rel="icon" type="image/x-icon" href="../favicon/favicon-2.png" sizes="32x32">
 </head>
 <body>
 <div class="p-4">
@@ -98,48 +154,37 @@ if (isset($_POST['generateCSV'])) {
         <button type="submit" name="applyFilter" class="inline-flex items-center px-4 py-2 text-white bg-green-500 rounded hover:bg-green-600">
             Apply Filter
         </button>
-        <button type="submit" name="generateCSV" onclick="return confirmDownload()" class="inline-flex items-center px-4 py-2 text-white bg-yellow-500 rounded hover:bg-yellow-600">
-            Generate CSV
+        <button type="submit" name="generatePDF" class="inline-flex items-center px-4 py-2 text-white bg-red-500 rounded hover:bg-red-600" onclick="return confirmGeneratePDF();">
+            Generate PDF
+        </button>
+        <button type="submit" name="generateCSV" class="inline-flex items-center px-4 py-2 text-white bg-yellow-500 rounded hover:bg-yellow-600" onclick="return confirmDownload();">
+            Download CSV
         </button>
     </form>
-</div>
-
-<div class="p-4">
-    <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-        <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
-            <div class="overflow-hidden">
-                <table class="min-w-full text-left text-sm font-light text-gray-900">
-                    <thead class="border-b bg-gray-100 font-medium text-gray-900">
-                        <tr>
-                            <th scope="col" class="px-6 py-4">#</th>
-                            <th scope="col" class="px-6 py-4">Name</th>
-                            <th scope="col" class="px-6 py-4">Email</th>
-                            <th scope="col" class="px-6 py-4">Service</th>
-                            <th scope="col" class="px-6 py-4">Date</th>
-                            <th scope="col" class="px-6 py-4">Time</th>
-                            <th scope="col" class="px-6 py-4">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        $index = 1;
-                        while ($row = $dataResult->fetch_assoc()) {
-                            echo "<tr class='border-b border-gray-200'>";
-                            echo "<td class='whitespace-nowrap px-6 py-4 font-medium'>" . $index++ . "</td>";
-                            echo "<td class='whitespace-nowrap px-6 py-4'>" . htmlspecialchars($row['name']) . "</td>";
-                            echo "<td class='whitespace-nowrap px-6 py-4'>" . htmlspecialchars($row['email']) . "</td>";
-                            echo "<td class='whitespace-nowrap px-6 py-4'>" . htmlspecialchars($row['service']) . "</td>";
-                            echo "<td class='whitespace-nowrap px-6 py-4'>" . htmlspecialchars($row['date']) . "</td>";
-                            echo "<td class='whitespace-nowrap px-6 py-4'>" . htmlspecialchars($row['time']) . "</td>";
-                            echo "<td class='whitespace-nowrap px-6 py-4'>" . htmlspecialchars($row['status']) . "</td>";
-                            echo "</tr>";
-                        }
-                        ?>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+    <table class="min-w-full bg-white">
+        <thead>
+            <tr>
+                <th class="py-2">Name</th>
+                <th class="py-2">Email</th>
+                <th class="py-2">Service</th>
+                <th class="py-2">Date</th>
+                <th class="py-2">Time</th>
+                <th class="py-2">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php while ($row = $dataResult->fetch_assoc()): ?>
+            <tr>
+                <td class="border px-4 py-2"><?php echo htmlspecialchars($row['name']); ?></td>
+                <td class="border px-4 py-2"><?php echo htmlspecialchars($row['email']); ?></td>
+                <td class="border px-4 py-2"><?php echo htmlspecialchars($row['service']); ?></td>
+                <td class="border px-4 py-2"><?php echo htmlspecialchars($row['date']); ?></td>
+                <td class="border px-4 py-2"><?php echo htmlspecialchars($row['time']); ?></td>
+                <td class="border px-4 py-2"><?php echo htmlspecialchars($row['status']); ?></td>
+            </tr>
+            <?php endwhile; ?>
+        </tbody>
+    </table>
 </div>
 </body>
 </html>
