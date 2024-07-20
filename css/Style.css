@@ -409,9 +409,10 @@ nav a.active {
   .home__title {
     font-size: 2rem;
   }
-  .nav__logo img {
-    width: 20px;
-  }
+  /* .nav__logo img {
+    width: 10px;
+    height: 10px;
+  } */
 }
 
 /* For medium devices */
@@ -420,6 +421,10 @@ nav a.active {
     grid-template-columns: 400px;
     justify-content: center;
   }
+  /* .nav__logo img {
+    width: 10px;
+    height: 10px;
+  } */
 }
 
 @media screen and (min-width: 768px) {
@@ -482,4 +487,8 @@ nav a.active {
   .button {
     display: none;
   }
+  /* .nav__logo img {
+    width: 10px;
+    height: 10px;
+  } */
 }

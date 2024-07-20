@@ -184,7 +184,7 @@ if (isset($_POST['update'])) {
             </div>
             <div class="dashboard-box cursor-scale" onclick="window.location.href='./filterappointment.php'">
                 <h3>Filter Appointments</h3>
-                <p>Click here to access the filter and CSV download options here.</p>
+                <p>Click here to access the filter and CSV download options.</p>
             </div>
         </div>
     </div>
