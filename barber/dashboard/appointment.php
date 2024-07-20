@@ -214,7 +214,7 @@ function sendEmail($to, $subject, $body){
         </div>
       <!-- Main content for Appointment page -->
       <div class="appointment-container">
-      <div class="appointment-list">
+      <div class="appointment-list" style="overflow-x:auto;">
         <h3>Appointment List</h3>
         <table>
           <tr>
