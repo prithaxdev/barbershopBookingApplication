@@ -2,28 +2,34 @@
 session_start();
 require_once('../config/dbConnection.php');
 
-// Initialize filter and CSV generation
+// Initialize filters and CSV generation
 $filter = isset($_POST['filter']) ? $_POST['filter'] : '';
+$searchService = isset($_POST['searchService']) ? $_POST['searchService'] : '';
+$searchEmail = isset($_POST['searchEmail']) ? $_POST['searchEmail'] : '';
 
 // Apply filter and fetch data
-$filterQuery = "";
+$filterQuery = "WHERE 1=1";
 switch ($filter) {
     case 'today':
-        $filterQuery = "WHERE date = CURDATE()";
+        $filterQuery .= " AND date = CURDATE()";
         break;
     case 'last_7_days':
-        $filterQuery = "WHERE date >= CURDATE() - INTERVAL 7 DAY";
+        $filterQuery .= " AND date >= CURDATE() - INTERVAL 7 DAY";
         break;
     case 'last_15_days':
-        $filterQuery = "WHERE date >= CURDATE() - INTERVAL 15 DAY";
+        $filterQuery .= " AND date >= CURDATE() - INTERVAL 15 DAY";
         break;
     case 'last_30_days':
-        $filterQuery = "WHERE date >= CURDATE() - INTERVAL 30 DAY";
+        $filterQuery .= " AND date >= CURDATE() - INTERVAL 30 DAY";
         break;
-    // Default case: Show all appointments
-    default:
-        $filterQuery = "";
-        break;
+}
+
+if (!empty($searchService)) {
+    $filterQuery .= " AND service LIKE '%" . $conn->real_escape_string($searchService) . "%'";
+}
+
+if (!empty($searchEmail)) {
+    $filterQuery .= " AND email LIKE '%" . $conn->real_escape_string($searchEmail) . "%'";
 }
 
 // Fetch filtered data
@@ -73,13 +79,21 @@ if (isset($_POST['generateCSV'])) {
     <form method="post" id="filterForm" class="mb-4 flex space-x-4">
         <div class="flex-1">
             <label for="filter" class="block text-sm font-medium text-gray-700">Filter by date:</label>
-            <select name="filter" id="filter" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+            <select name="filter" id="filter" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 p-2">
                 <option value="" <?php echo ($filter === '') ? 'selected' : ''; ?>>All</option>
                 <option value="today" <?php echo ($filter === 'today') ? 'selected' : ''; ?>>Today</option>
                 <option value="last_7_days" <?php echo ($filter === 'last_7_days') ? 'selected' : ''; ?>>Last 7 Days</option>
                 <option value="last_15_days" <?php echo ($filter === 'last_15_days') ? 'selected' : ''; ?>>Last 15 Days</option>
                 <option value="last_30_days" <?php echo ($filter === 'last_30_days') ? 'selected' : ''; ?>>Last 30 Days</option>
             </select>
+        </div>
+        <div class="flex-1">
+            <label for="searchService" class="block text-sm font-medium text-gray-700">Filter by service:</label>
+            <input type="text" name="searchService" id="searchService" value="<?php echo htmlspecialchars($searchService); ?>" class="mt-1 block w-full border-solid border-4 border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 p-2 outline-none">
+        </div>
+        <div class="flex-1">
+            <label for="searchEmail" class="block text-sm font-medium text-gray-700">Filter by email:</label>
+            <input type="text" name="searchEmail" id="searchEmail" value="<?php echo htmlspecialchars($searchEmail); ?>" class="mt-1 block w-full border-solid border-4 border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 p-2 outline-none">
         </div>
         <button type="submit" name="applyFilter" class="inline-flex items-center px-4 py-2 text-white bg-green-500 rounded hover:bg-green-600">
             Apply Filter
